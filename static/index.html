@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div ng-controller="statCtrl">
+      <h1>Tessel Climate</h1>
+        <p>Temperature <span>{{temp}}</span>C</p>
+        <p>Humidity <span>{{humid}}</span></p>
+    </div>
+
+    <script>
+
+      // define the module we're working with
+      var app = angular.module('sse', []);
+
+      function statCtrl($scope) {
+        $scope.socket = new WebSocket("ws://192.168.0.34:8081");
+        $scope.temp = 0.0;
+        $scope.humid = 0.0;
+
+        $scope.socket.onmessage = function(msg){
+          $scope.$apply(function () {
+            var clim = JSON.parse(msg.data)
+            $scope.temp = clim.temp;
+            $scope.humid = clim.humid;
+          });
+        };
+      }
+
+      angular.bootstrap(document, ['sse']);
+
+    </script>
+  </body>
+</html>
