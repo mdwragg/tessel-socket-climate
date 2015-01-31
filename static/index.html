@@ -18,7 +18,7 @@
       var app = angular.module('sse', []);
 
       function statCtrl($scope) {
-        $scope.socket = new WebSocket("ws://192.168.0.34:8081");
+        $scope.socket = new WebSocket("ws://192.168.0.120:8081");
         $scope.temp = 0.0;
         $scope.humid = 0.0;
 
